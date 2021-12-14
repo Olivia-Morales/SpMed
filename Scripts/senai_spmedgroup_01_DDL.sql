@@ -37,12 +37,12 @@ Numero int,
 Bairro varchar (30),
 Cidade varchar (30),
 Estado varchar (30),
-CEP tinyint,
+CEP int,
 );
 go
 create table Medicos(
 idMedicos int primary key identity,
-idUsuarios int foreign key references Usuarios(idUsuarios) unique not null,
+idUsuarios int foreign key references Usuarios(idUsuarios) not null,
 idClinica int foreign key references Clinicas (idClinica) not null,
 idEspecialidade int foreign key references Especialidade(idEspecialidade) not null,
 CRM varchar (8) not null unique,
@@ -50,14 +50,13 @@ CRM varchar (8) not null unique,
 go
 create table Pacientes(
 idPaciente int primary key identity,
-idUsuarios int foreign key references Usuarios(idUsuarios) unique not null,
+idUsuarios int foreign key references Usuarios(idUsuarios),
+idendereco int foreign key references Endereco(idEndereco),
 Telefone varchar (12),
 DatadeNascimento date not null,
-Endereco varchar (50) not null,
-RG tinyint not null unique,
-CPF tinyint not null unique,
+RG CHAR(9) not null unique,
+CPF CHAR(11) not null unique,
 );
-go
 create table Situacao(
 idSituacao int primary key identity (1,1),
 Situacao varchar (100),
@@ -68,7 +67,8 @@ idConsultas int primary key identity (1,1),
 idMedicos int foreign key references Medicos(idMedicos),
 idPaciente int foreign key references Pacientes (idPaciente),
 idSituacao int foreign key references Situacao (idSituacao),
-Descricao varchar (50),
+Descricao varchar (500),
 DataConsulta  smalldatetime,
 );
 go
+drop table Consultas
